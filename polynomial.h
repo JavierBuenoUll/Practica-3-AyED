@@ -1,11 +1,11 @@
-// AUTOR: 
-// FECHA: 
-// EMAIL: 
-// VERSION: 1.0
+// AUTOR: JAVIER BUENO CALZADILLA 
+// FECHA: 6/3/2024
+// EMAIL: alu0101627922@ull.edu.es
+// VERSION: 3.1
 // ASIGNATURA: Algoritmos y Estructuras de Datos
 // PRÁCTICA Nº: 3
 // ESTILO: Google C++ Style Guide
-// COMENTARIOS:
+// COMENTARIOS: 
 // 
 
 #ifndef POLYNOMIAL_H_
@@ -17,7 +17,7 @@
 #include "vector_t.h"
 #include "sparse_vector_t.h"
 
-// Clase para polinomios basados en vectores densos de doubles
+// Clase para polinomios basados en vectores densos (vector inicial) de doubles
 class Polynomial : public vector_t<double> {
  public:
   // constructores
@@ -25,7 +25,7 @@ class Polynomial : public vector_t<double> {
   Polynomial(const Polynomial& pol)
       : vector_t<double>(pol) {}; // constructor de copia
 
-  // destructor
+  // destructor por defecto
   ~Polynomial() {};
 
   // E/S
@@ -58,7 +58,7 @@ class SparsePolynomial : public sparse_vector_t {
 };
 
 // E/S
-void Polynomial::Write(std::ostream& os, const double eps) const {
+void Polynomial::Write(std::ostream& os, const double eps) const { // Método de escritura
   os << get_size() << ": [ ";
   bool first{true};
   for (int i{0}; i < get_size(); i++)
@@ -72,7 +72,7 @@ void Polynomial::Write(std::ostream& os, const double eps) const {
   os << " ]" << std::endl;
 }
 
-std::ostream& operator<<(std::ostream& os, const Polynomial& p) {
+std::ostream& operator<<(std::ostream& os, const Polynomial& p) { // Sobrecarga del operador de inserción
   p.Write(os);
   return os;
 }
@@ -82,6 +82,9 @@ std::ostream& operator<<(std::ostream& os, const Polynomial& p) {
 // Evaluación de un polinomio representado por vector denso
 double Polynomial::Eval(const double x) const {
   double result{0.0};
+  for(int i = 0; i < get_size(); i++) {
+    result = result + (get_val(i) * pow(x,i));
+  }
   // poner el código aquí
   return result;
 }
@@ -99,7 +102,7 @@ SparsePolynomial::SparsePolynomial(const SparsePolynomial& spol) {
 }
 
 // E/S
-void SparsePolynomial::Write(std::ostream& os) const {
+void SparsePolynomial::Write(std::ostream& os) const { // Método de escritura del polinomia disperso
   os << get_n() << "(" << get_nz() << "): [ ";
   bool first{true};
   for (int i{0}; i < get_nz(); i++) {
@@ -113,7 +116,7 @@ void SparsePolynomial::Write(std::ostream& os) const {
   os << " ]" << std::endl;
 }
 
-std::ostream& operator<<(std::ostream& os, const SparsePolynomial& p) {
+std::ostream& operator<<(std::ostream& os, const SparsePolynomial& p) { // Sobrecarga del operador de inserción
   p.Write(os);
   return os;
 }
@@ -123,6 +126,9 @@ std::ostream& operator<<(std::ostream& os, const SparsePolynomial& p) {
 // Evaluación de un polinomio representado por vector disperso
 double SparsePolynomial::Eval(const double x) const {
   double result{0.0};
+  for(int i = 0; i < get_nz(); i++) {
+    result = result + (at(i).get_val() * pow(x, i));
+  }
   // poner el código aquí
   return result;
 }

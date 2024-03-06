@@ -1,11 +1,11 @@
-// AUTOR: 
-// FECHA: 
-// EMAIL: 
-// VERSION: 1.0
+// AUTOR: JAVIER BUENO CALZADILLA 
+// FECHA: 6/3/2024
+// EMAIL: alu0101627922@ull.edu.es
+// VERSION: 3.1
 // ASIGNATURA: Algoritmos y Estructuras de Datos
 // PRÁCTICA Nº: 3
 // ESTILO: Google C++ Style Guide
-// COMENTARIOS: 
+// COMENTARIOS:  
 // COMPILACIÓN: g++ -g main_polynomial.cc -o main_polynomial
 // EJECUCIÓN: ./main_polynomial < data_polynomial.txt
 

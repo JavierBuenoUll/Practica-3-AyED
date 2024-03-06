@@ -66,10 +66,16 @@ bool IsNotZero(const double val, const double eps = EPS) {
 
 sparse_vector_t::sparse_vector_t(const int n) : pv_(n), nz_(0), n_(n) {} // constructor por defecto
 
-// FASE II
+// FASE II PENDIENTE
 sparse_vector_t::sparse_vector_t(const vector_t<double>& v, const double eps)
     : pv_(), nz_(0), n_(0) {
-  // poner el código aquí
+    for (int i = 0; i < v.get_size(); i++) {
+      if(fabs(v[i]) > eps) {
+        pv_[i,v[i]];
+        nz_++;
+      }
+    }
+    n_ = v.get_size();
 }
 
 // constructor de copia
@@ -115,14 +121,14 @@ const pair_double_t& sparse_vector_t::operator[](const int i) const { // Sobreca
 }
 
 // E/S
-void sparse_vector_t::write(std::ostream& os) const { 
+void sparse_vector_t::write(std::ostream& os) const { // Método de escritura  
   os << get_n() << "(" << get_nz() << "): [ ";
   for (int i = 0; i < get_nz(); i++)
     os << pv_[i] << " ";
 	os << "]" << std::endl;
 }
 
-std::ostream& operator<<(std::ostream& os, const sparse_vector_t& sv) {
+std::ostream& operator<<(std::ostream& os, const sparse_vector_t& sv) { // Sobrecarga del operador de inserción
   sv.write(os);
   return os;
 }
