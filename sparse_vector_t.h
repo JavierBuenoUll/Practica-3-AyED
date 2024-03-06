@@ -1,11 +1,11 @@
-// AUTOR: 
-// FECHA: 
-// EMAIL: 
-// VERSION: 4.0
+// AUTOR: JAVIER BUENO CALZADILLA 
+// FECHA: 6/3/2024
+// EMAIL: alu0101627922@ull.edu.es
+// VERSION: 3.1
 // ASIGNATURA: Algoritmos y Estructuras de Datos
 // PRÁCTICA Nº: 3
 // ESTILO: Google C++ Style Guide
-// COMENTARIOS:
+// COMENTARIOS: 
 // 
 
 #ifndef SPARSE_VECTORT_H_
@@ -19,10 +19,10 @@
 
 #define EPS 1.0e-6
 
-typedef pair_t<double> pair_double_t;
-typedef vector_t<pair_double_t> pair_vector_t;
+typedef pair_t<double> pair_double_t; // define el tipo de par de dobles
+typedef vector_t<pair_double_t> pair_vector_t; // define el tipo de vector de pares de dobles
 
-class sparse_vector_t {
+class sparse_vector_t { // Clase de vector disperso
  public:
   // constructores
   sparse_vector_t(const int = 0);
@@ -42,14 +42,14 @@ class sparse_vector_t {
 
   // getters-setters
   pair_double_t& at(const int);
-  pair_double_t& operator[](const int);
+  pair_double_t& operator[](const int); // Sobrecarga del operador []
   
   // getters constantes
   const pair_double_t& at(const int) const;
   const pair_double_t& operator[](const int) const;
 
   // E/S
-  void write(std::ostream& = std::cout) const;
+  void write(std::ostream& = std::cout) const; // Método de escritura
 
  private:
   pair_vector_t pv_;  // valores + índices
@@ -64,7 +64,7 @@ bool IsNotZero(const double val, const double eps = EPS) {
   return fabs(val) > eps;
 }
 
-sparse_vector_t::sparse_vector_t(const int n) : pv_(n), nz_(0), n_(n) {}
+sparse_vector_t::sparse_vector_t(const int n) : pv_(n), nz_(0), n_(n) {} // constructor por defecto
 
 // FASE II
 sparse_vector_t::sparse_vector_t(const vector_t<double>& v, const double eps)
@@ -86,31 +86,31 @@ sparse_vector_t& sparse_vector_t::operator=(const sparse_vector_t& w) {
   return *this;
 }
 
-sparse_vector_t::~sparse_vector_t() {}
+sparse_vector_t::~sparse_vector_t() {} // Destructor de la clase sparse vector
 
-inline int sparse_vector_t::get_nz() const {
+inline int sparse_vector_t::get_nz() const { // getter del número de valores distintos de 0
   return nz_;
 }
 
-inline int sparse_vector_t::get_n() const {
+inline int sparse_vector_t::get_n() const { // getter del tamaño del vector
   return n_;
 }
 
-pair_double_t& sparse_vector_t::at(const int i) {
+pair_double_t& sparse_vector_t::at(const int i) { // Devuelve el valor de una posición constante
   assert(i >= 0 && i < get_nz());
   return pv_[i];
 }
 
-pair_double_t& sparse_vector_t::operator[](const int i) {
+pair_double_t& sparse_vector_t::operator[](const int i) { // Sobrecarga del operador []
   return at(i);
 }
 
-const pair_double_t& sparse_vector_t::at(const int i) const {
+const pair_double_t& sparse_vector_t::at(const int i) const { // Devuelve el valor constante
   assert(i >= 0 && i < get_nz());
   return pv_[i];
 }
 
-const pair_double_t& sparse_vector_t::operator[](const int i) const {
+const pair_double_t& sparse_vector_t::operator[](const int i) const { // Sobrecarga constante
   return at(i);
 }
 
