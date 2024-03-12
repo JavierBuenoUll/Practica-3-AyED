@@ -79,22 +79,35 @@ std::ostream& operator<<(std::ostream& os, const Polynomial& p) { // Sobrecarga 
 
 // Operaciones con polinomios
 
-// Evaluación de un polinomio representado por vector denso
+// Evaluación de un polinomio representado por vector denso FASE 3
 double Polynomial::Eval(const double x) const {
   double result{0.0};
+  double valor_x_elevado_grado {1.0};
   for(int i = 0; i < get_size(); i++) {
-    result = result + (get_val(i) * pow(x,i));
+    int grado_polinomio = i;
+    valor_x_elevado_grado = 1.0;
+    while(grado_polinomio > 0) { // mientras el grado sea mayor que 1, se multiplica x tantas veces como el grado lo pide.
+      valor_x_elevado_grado = x * valor_x_elevado_grado; // sería como una potencia
+      grado_polinomio--; // se reduce el valor del grado
+    }
+    result = result + (at(i) * valor_x_elevado_grado);
   }
-  // poner el código aquí
   return result;
 }
 
+// FASE 4
 // Comparación si son iguales dos polinomios representados por vectores densos
 bool Polynomial::IsEqual(const Polynomial& pol, const double eps) const {
   bool differents = false;
-  // poner el código aquí
+  int menor_tamanio = std::min(get_size(), pol.get_size());
+  for(int i = 0; i < menor_tamanio; i++) {
+    if (fabs(at(i) - pol.at(i)) > eps) {
+      differents = true;
+    }
+  }
   return !differents;
 }
+ 
 
 // constructor de copia
 SparsePolynomial::SparsePolynomial(const SparsePolynomial& spol) {
@@ -123,31 +136,49 @@ std::ostream& operator<<(std::ostream& os, const SparsePolynomial& p) { // Sobre
 
 // Operaciones con polinomios
 
-// Evaluación de un polinomio representado por vector disperso
+// Evaluación de un polinomio representado por vector disperso FASE 3
 double SparsePolynomial::Eval(const double x) const {
   double result{0.0};
   for(int i = 0; i < get_nz(); i++) {
-    result = result + (at(i).get_val() * pow(x, i));
+    result += (at(i).get_val() * pow(x, at(i).get_inx())); 
+    // Donde at(i).get_val() consigue el coeficiente, y at(i).get_inx, el exponente.
   }
-  // poner el código aquí
   return result;
 }
 
+// FASE 4
 // Comparación si son iguales dos polinomios representados por vectores dispersos
 bool SparsePolynomial::IsEqual(const SparsePolynomial& spol
 			       , const double eps) const {
   bool differents = false;
-  // poner el código aquí
+  for(int i = 0; i < get_nz(); i++) {
+    if((at(i).get_inx() != spol.at(i).get_inx()) ||
+       (fabs(at(i).get_val() - spol.at(i).get_val()) > eps)) {
+      // Si los índices son distintos o la resta de los valores supera el margen (eps) son distintos.
+    differents = true;
+    break;
+    }
+  }
   return !differents;
 }
+
+
 
 // Comparación si son iguales dos polinomios representados por
 // vector disperso y vector denso
 bool SparsePolynomial::IsEqual(const Polynomial& pol, const double eps) const {
   bool differents = false;
-  // poner el código aquí
+  for(int i = 0, j = 0; i < get_nz() && j < pol.get_size(); i++, j++) {
+    while(j < pol.get_size() && pol.at(j) == 0) {
+      j++; // recorrer el polinomio denso hasta un elemento no nulo.
+    }
+    if(j >= pol.get_size() || (j != at(i).get_inx()) || (fabs(at(i).get_val() - pol.at(j)) > eps)) {
+      differents = true;
+    }
+  }
   return !differents;
 }
+
 
 
 #endif  // POLYNOMIAL_H_
